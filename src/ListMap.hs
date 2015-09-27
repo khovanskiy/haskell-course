@@ -1,4 +1,4 @@
-module ListMap(List, put, getOrDefault, fromList) where
+module ListMap(List, put, getOrDefault, fromList, getOrDefaultWith) where
 import Map
 
 data List k v = List [(k, v)] deriving (Show)

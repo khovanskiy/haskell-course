@@ -2,7 +2,6 @@
 module BinaryTree(Tree, fromList, insert, find, delete, toList, next) where
 
 import Set
-import Map
 
 data Tree a = Leaf | Node a (Tree a) (Tree a) deriving (Show)
 
