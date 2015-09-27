@@ -1,17 +1,19 @@
-module CachedSumList(fromList, addFirst, removeFirst, removeAt) where
+module CachedSumList(fromList, addFirst, removeFirst, removeAt, merge) where
 
-data (Num a) => CachedSumList a = CachedSumList {inner_list :: [a], inner_sum :: a} deriving (Show)
+import Data.Monoid
+
+data CachedSumList a = CachedSumList {inner_list :: [a], inner_sum :: a} deriving (Show)
 
 fromList :: (Num a) => [a] -> CachedSumList a
 fromList arg = CachedSumList arg (sum arg)
 
-addFirst :: (Num a) => (CachedSumList a) -> a -> (CachedSumList a)
+addFirst :: (Num a) => CachedSumList a -> a -> CachedSumList a
 addFirst (CachedSumList a b) value = (CachedSumList (value : a) (value + b))
 
 removeFirst :: (Num a) => (CachedSumList a) -> (CachedSumList a)
 removeFirst (CachedSumList (x : xs) b) = CachedSumList xs (b - x)
 
-removeAt :: (Num a, Eq p, Num p) => (CachedSumList a) -> p -> (CachedSumList a)
+removeAt :: (Num a, Eq p, Num p) => CachedSumList a -> p -> CachedSumList a
 removeAt (CachedSumList (x : xs) b) i
     | i == 0    = CachedSumList xs (b - x)
     | otherwise = do
@@ -23,4 +25,11 @@ instance (Eq a) => Eq (CachedSumList a) where
 
 instance (Ord a) => Ord (CachedSumList a) where
     (CachedSumList _ a) <= (CachedSumList _ b) = a <= b
+
+merge :: (Num a) => CachedSumList a -> CachedSumList a -> CachedSumList a
+merge (CachedSumList al as) (CachedSumList bl bs) = CachedSumList (al ++ bl) (as + bs)
+
+instance (Num a) => Monoid (CachedSumList a) where
+    mempty = CachedSumList [] 0
+    mappend = merge
 
