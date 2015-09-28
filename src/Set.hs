@@ -8,8 +8,8 @@ class Set s where
     toList :: s a -> [a]
 
     fromList :: (Ord a) => [a] -> s a
-    fromList [] = emptySet
-    fromList x = foldl insert emptySet x
+    --fromList [] = emptySet
+    fromList = foldl insert emptySet
 
     find     :: (Ord a) => s a -> a -> Maybe a
     insert   :: (Ord a) => s a -> a -> s a

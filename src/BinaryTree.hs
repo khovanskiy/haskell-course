@@ -42,6 +42,12 @@ instance Set Tree where
         GT  -> Node k (delete left m) right
         _   -> deleteRoot (Node k left right)
 
+    next Leaf _ = Nothing
+    next (Node x left right) y
+        | y < x     = if lres == Nothing then Just x else lres
+        | otherwise = next right y
+        where
+            lres = next left y
 --printTree :: (Ord a, Show a) => Tree a -> IO ()
 --printTree = mapM_ putStrLn . treeIndent
 --  where

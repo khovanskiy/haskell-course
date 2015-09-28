@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiParamTypeClasses #-}
+--{-# LANGUAGE MultiParamTypeClasses #-}
 module Map where
 
 class Map m where
