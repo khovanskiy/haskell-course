@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
-module BinaryTree(Tree, fromList, insert, find, delete, toList, next) where
+module BinaryTree(Tree, fromList, insert, find, delete, toList, next, nextN) where
 
 import Set
 
