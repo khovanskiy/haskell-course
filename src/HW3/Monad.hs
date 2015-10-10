@@ -1,7 +1,5 @@
 {-# LANGUAGE NoImplicitPrelude, FlexibleInstances, UndecidableInstances #-}
-module Join2Monad where
-
-import FishAndJoin
+module HW3.Monad(Monad(..), fmap) where
 
 class Monad m where
     return :: a -> m a
@@ -9,9 +7,3 @@ class Monad m where
 
 fmap :: (Monad m) => (a -> b) -> m a -> m b
 fmap f x = x >>= (\t -> return (f t))
-
-instance MonadJoin m => Monad m where
-    return = returnJoin
-    ma >>= k = join (fmap k ma)
-
-

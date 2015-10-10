@@ -1,4 +1,4 @@
-module Factor(factor, testFactor) where
+module HW3.Factor(factor, testFactor) where
 
 import Asserts
 import MergeSort
@@ -14,7 +14,7 @@ factor x = mergeSort $ x >>= \t -> helper t 2
 
 testFactor :: IO()
 testFactor = do
-    Asserts.equals "Example #1" [3, 3, 7, 11, 13, 17] $ factor [9, 17, 1001]
-    Asserts.equals "Example #2" [2, 2, 2, 2, 2, 2, 2, 3] $ factor [8, 16, 3]
+    Asserts.equals "F:  Example #1" [3, 3, 7, 11, 13, 17] $ factor [9, 17, 1001]
+    Asserts.equals "F:  Example #2" [2, 2, 2, 2, 2, 2, 2, 3] $ factor [8, 16, 3]
 
 

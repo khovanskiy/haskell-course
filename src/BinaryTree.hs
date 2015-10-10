@@ -1,6 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
-module BinaryTree(Tree, fromList, insert, find, delete, toList, next, nextN) where
+module BinaryTree(Tree(..), testBinaryTree) where
 
+import Asserts
 import Set
 
 data Tree a = Leaf | Node a (Tree a) (Tree a) deriving (Show)
@@ -48,6 +49,17 @@ instance Set Tree where
         | otherwise = next right y
         where
             lres = next left y
+
+
+testBinaryTree :: IO()
+testBinaryTree = do
+    let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
+    let set = fromList array :: Tree Int
+    Asserts.equals "BT: Example #1" Nothing $ Set.nextN set 19 (-1)
+    Asserts.equals "BT: Example #2" (Just 19) $ Set.nextN set 19 0
+    Asserts.equals "BT: Example #3" (Just 21) $ Set.nextN set 19 1
+    Asserts.equals "BT: Example #4" (Just 23) $ Set.nextN set 19 3
+    Asserts.equals "BT: Example #5" Nothing $ Set.nextN set 19 6
 --printTree :: (Ord a, Show a) => Tree a -> IO ()
 --printTree = mapM_ putStrLn . treeIndent
 --  where

@@ -10,28 +10,18 @@ module Main where
 --import MassCenter(testMassCenter)
 --import FlipNeighbour
 --import CycledList(testCycledList)
-import Factor
+import Control.Monad
+import BinaryTree
+import HW3.Factor
+import HW3.State
 
 main :: IO()
 main = do
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
-    --let set = fromList array :: Tree Int
-    --print $ nextN set 19 6
-    testFactor
-    --print $ fromList arr
-    --let a = fromList [1, 2, 3, 4];
-    --let b = shift a
-    --let c = shift b
-    --let d = shift c
-    --let e = shift d
-    --print $ a
-    --print $ b
-    --print $ c
-    --print $ d
-    --print $ e
-    --print $ toList e
-
+    ---testBinaryTree
+    ---testFactor
+    testState
 
 
     --let a = fromList [5, 4, 19, 19, 19, 25, 23] :: Tree Int
