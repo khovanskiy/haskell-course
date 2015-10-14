@@ -6,8 +6,8 @@ import MergeSort
 helper :: Int -> Int -> [Int]
 helper n k
     | n == k            = [n]
-    | n `mod` k == 0    = [k] ++ helper (n `div` k) k
-    | otherwise         = [] ++ helper n (k + 1)
+    | n `mod` k == 0    = k : helper (n `div` k) k
+    | otherwise         = helper n (k + 1)
 
 factor :: [Int] -> [Int]
 factor x = mergeSort $ x >>= \t -> helper t 2
