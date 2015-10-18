@@ -26,6 +26,7 @@ class Set s where
         | k == 0    = find s m
         | k == 1    = next s m
         | otherwise = next s m >>= (\x -> nextN s x (k - 1))
+
 instance (Ord a, Set s) => Monoid (s a) where
     mempty = emptySet
     mappend a b = fromList $ toList a ++ toList b
