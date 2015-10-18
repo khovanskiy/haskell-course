@@ -10,4 +10,4 @@ import HW3.FishAndJoin
 
 instance MonadFish m => MonadJoin m where
     returnJoin = returnFish
-    join x = (id >=> id) x
+    join = id >=> id
