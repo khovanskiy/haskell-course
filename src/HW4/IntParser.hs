@@ -53,11 +53,11 @@ data Tree = SumNode Operator Tree Tree
 
 lookAhead :: [Token] -> Token
 lookAhead [] = TokEnd
-lookAhead (t:ts) = t
+lookAhead (t:_) = t
 
 accept :: [Token] -> [Token]
 accept [] = error "Nothing to accept"
-accept (t:ts) = ts
+accept (_:ts) = ts
 
 expression :: [Token] -> (Tree, [Token])
 expression toks =

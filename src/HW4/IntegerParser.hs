@@ -31,7 +31,7 @@ operation = (\op -> TokenOp op) <$> ((const Plus <$> char '+') <|> (const Minus 
 tokenize :: Parser Token
 tokenize = spaces *> (number <|> lbracket <|> rbracket <|> operation) <* spaces
 
-data Tree = TermNode Operator Tree Tree | FactorNode Operator Tree Tree | NumNode Integer | UnaryNode Operator Tree deriving (Show, Eq)
+data Tree = TermNode Operator Tree Tree | FactorNode Operator Tree Tree | NumNode Integer | UnaryNode Operator Tree | VarNode String deriving (Show, Eq)
 
 lookAhead :: [Token] -> Token
 lookAhead [] = TokenEnd
@@ -46,42 +46,40 @@ parse = Parser $ \toks -> do
     (tokens, _) <- runParser (zeroOrMore tokenize) toks
     case tokens of
         []  ->  Nothing
-        _   ->  let (tree, toks') = expression tokens in
-                    if null toks' then return (tree, mempty) else Nothing
+        _   ->  do
+            (tree, toks') <- expression tokens
+            if null toks' then return (tree, mempty) else Nothing
 
-expression :: [Token] -> (Tree, [Token])
+expression :: [Token] -> Maybe (Tree, [Token])
 expression toks = do
-        let (termTree, toks') = term toks
+        (termTree, toks') <- term toks
         case lookAhead toks' of
-             (TokenOp op) | elem op [Plus, Minus] ->
-                let (exTree, toks'') = expression (accept toks')
-                in (TermNode op termTree exTree, toks'')
-             _ -> (termTree, toks')
+             (TokenOp op) | elem op [Plus, Minus] -> do
+                (exTree, toks'') <- expression (accept toks')
+                Just (TermNode op termTree exTree, toks'')
+             _ -> Just (termTree, toks')
 
-term :: [Token] -> (Tree, [Token])
-term toks =
-   let (facTree, toks') = factor toks
-   in
-      case lookAhead toks' of
-         (TokenOp op) | elem op [Times, Div, Pow] ->
-            let (termTree, toks'') = term (accept toks')
-            in (FactorNode op facTree termTree, toks'')
-         _ -> (facTree, toks')
+term :: [Token] -> Maybe (Tree, [Token])
+term toks = do
+   (facTree, toks') <- factor toks
+   case lookAhead toks' of
+        (TokenOp op) | elem op [Times, Div, Pow] -> do
+            (termTree, toks'') <- term (accept toks')
+            Just (FactorNode op facTree termTree, toks'')
+        _ -> Just (facTree, toks')
 
-factor :: [Token] -> (Tree, [Token])
+factor :: [Token] -> Maybe (Tree, [Token])
 factor toks =
     case lookAhead toks of
-        (TokenNum x)     -> (NumNode x, accept toks)
-        (TokenOp op) | elem op [Plus, Minus] ->
-            let (facTree, toks') = factor (accept toks)
-            in (UnaryNode op facTree, toks')
-        LBracket      ->
-            let (expTree, toks') = expression (accept toks)
-            in
-                if lookAhead toks' /= RBracket
-                then error "Missing right parenthesis"
-                else (expTree, accept toks')
-        _ -> error $ "Parse error on token: " ++ show toks
+        (TokenNum x)     -> Just (NumNode x, accept toks)
+        (TokenOp op) | elem op [Plus, Minus] -> do
+            (facTree, toks') <- factor (accept toks)
+            Just (UnaryNode op facTree, toks')
+        LBracket      -> do
+            (expTree, toks') <- expression (accept toks)
+            if lookAhead toks' /= RBracket then Nothing else Just (expTree, accept toks')
+            --- error "Missing right parenthesis"
+        _ -> Nothing --- error $ "Parse error on token: " ++ show toks
 
 testIntegerParser :: IO()
 testIntegerParser = do
@@ -89,3 +87,5 @@ testIntegerParser = do
     Asserts.equals "IP: Example #1" e1 (runParser parse "5 * (3 + 4)")
     let e2 = Just (TermNode Plus (NumNode 1) (FactorNode Pow (FactorNode Times (NumNode 2) (FactorNode Times (NumNode 3) (TermNode Minus (NumNode 4) (NumNode 5)))) (NumNode 4)),"")
     Asserts.equals "IP: Example #2" e2 (runParser parse "1 + (2 * 3 *( 4 - 5))^4")
+    Asserts.equals "IP: Example #3" Nothing (runParser parse "1 * (3 + 4")
+    Asserts.equals "IP: Example #4" Nothing (runParser parse "1 * 1 + ")
