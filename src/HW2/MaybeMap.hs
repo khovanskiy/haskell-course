@@ -1,4 +1,4 @@
-module MaybeMap(Value, put, getOrDefault, fromPair, getOrDefaultWith) where
+module HW2.MaybeMap(Value(..), fromPair) where
 import HW2.Map
 
 newtype Value k v = Value (k, Maybe v) deriving (Show)

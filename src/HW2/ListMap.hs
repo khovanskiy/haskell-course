@@ -1,4 +1,4 @@
-module ListMap(List, put, getOrDefault, fromList, getOrDefaultWith) where
+module HW2.ListMap(List(..), fromList) where
 import HW2.Map
 
 data List k v = List [(k, v)] deriving (Show)
@@ -20,3 +20,9 @@ instance Map List where
         EQ  -> b
         GT  -> getOrDefault (List xs) k d
         _   -> d
+
+    get (List []) _ = Nothing
+    get (List ((a, b):xs)) k = case compare k a of
+        EQ  -> Just b
+        GT  -> get (List xs) k
+        _   -> Nothing

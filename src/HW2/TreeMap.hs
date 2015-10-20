@@ -1,4 +1,4 @@
-module TreeMap(Tree, put, getOrDefault, fromList, getOrDefaultWith) where
+module HW2.TreeMap(Tree(..), fromList) where
 import HW2.Map
 
 data Tree k v = Leaf | Node (k, v) (Tree k v) (Tree k v) deriving (Show)

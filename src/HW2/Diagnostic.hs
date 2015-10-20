@@ -1,4 +1,4 @@
-module Diagnostic(Diagnostic(..), Range, Warning, Error) where
+module HW2.Diagnostic(Diagnostic(..), Range, Warning, Error) where
 import Data.Monoid
 
 type Range = (Int, Int)

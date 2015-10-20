@@ -9,14 +9,16 @@ module Main where
 --import BinaryTree
 --import HW3.Factor
 --import HW3.State
-import HW4.IntegerParser
+---import HW4.IntegerParser
+import HW5.Evaluater
 
 main :: IO()
 main = do
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
-    testIntegerParser
+    ---testIntegerParser
     ---print $ runParser parse "x + y * 2"
+    testEvaluater
 
     --let a = fromList [5, 4, 19, 19, 19, 25, 23] :: Tree Int
     --print $ next a 19
