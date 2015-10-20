@@ -7,9 +7,9 @@ newtype State s a = State { runState :: s -> (a, s) }
 
 instance Monad (State s) where
     return a = State $ \s -> (a,  s)
-    pr >>= k = State $ \ st ->
-       let (x, st') = runState pr st -- Running the first processor on st.
-       in runState (k x) st'       -- Running the second processor on st'.
+    oldState >>= f = State $ \ st ->
+       let (x, newState) = runState oldState st -- Running the first processor on st.
+       in runState (f x) newState       -- Running the second processor on st'.
 
 testState :: IO()
 testState = do

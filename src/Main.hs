@@ -16,7 +16,7 @@ main = do
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
     testIntegerParser
-    --- print $ runParser parse "1 + (2 * 3 *( 4 - 5))^4"
+    ---print $ runParser parse "x + y * 2"
 
     --let a = fromList [5, 4, 19, 19, 19, 25, 23] :: Tree Int
     --print $ next a 19

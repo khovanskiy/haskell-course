@@ -54,4 +54,4 @@ instance Alternative Parser where
 
 --- #5
 intOrUppercase :: Parser ()
-intOrUppercase = (const ()) <$> posInt <|> (const ()) <$> satisfy (isUpper)
+intOrUppercase = const () <$> posInt <|> const () <$> satisfy isUpper

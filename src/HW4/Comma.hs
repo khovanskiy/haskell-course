@@ -34,7 +34,7 @@ class (Functor t, Foldable t) => Traversable t where
     sequenceA = traverse id
 
 instance Functor ((,) a) where
-    fmap f (x,y) = (x, f y)
+    fmap f (x, y) = (x, f y)
 
 instance Foldable ((,) a) where
     foldr f z (_, y) = f y z

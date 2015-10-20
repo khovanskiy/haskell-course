@@ -17,7 +17,7 @@ spaces :: Parser String
 spaces = zeroOrMore $ satisfy isSpace
 
 ident :: Parser String
-ident = (++) <$> (oneOrMore $ satisfy isAlpha) <*> (zeroOrMore $ satisfy isAlphaNum)
+ident = (++) <$> (oneOrMore $ satisfy isAlpha) <*> (zeroOrMore $ satisfy isAlphaNum) --leftA2
 
 --- #3
 type Ident = String
