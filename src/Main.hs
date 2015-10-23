@@ -11,6 +11,8 @@ module Main where
 --import HW3.State
 ---import HW4.IntegerParser
 import HW5.Evaluater
+import HW5.Postfix
+
 
 main :: IO()
 main = do
@@ -19,6 +21,7 @@ main = do
     ---testIntegerParser
     ---print $ runParser parse "x + y * 2"
     testEvaluater
+    testPostfix
 
     --let a = fromList [5, 4, 19, 19, 19, 25, 23] :: Tree Int
     --print $ next a 19
