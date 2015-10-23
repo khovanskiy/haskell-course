@@ -21,7 +21,7 @@ filterW p ws = filter isCorrectWriter ws where
 
 helper :: Int -> [Writer String (Int, Int)] -> Writer String Int
 helper k h = do
-    let result = filterW isCorr:ectHeaps $ h >>= manHeaps
+    let result = filterW isCorrectHeaps $ h >>= manHeaps
     let filtered = filterW (\(a, b) -> a == 0 && b == 0) result
     if null filtered then helper (k + 1) result else do
         let (_, flog) = runWriter $ head filtered
