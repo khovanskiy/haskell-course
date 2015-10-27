@@ -1,4 +1,4 @@
-module HW5.RWS where
+module HW5.RWS(RWS(..)) where
 
 import Control.Applicative
 import Control.Monad

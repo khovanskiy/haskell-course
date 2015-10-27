@@ -33,8 +33,8 @@ step t = case t of
 evalPostfix :: String -> Maybe Double
 evalPostfix s = do
     case runParser (zeroOrMore tokenize) s of
-        Nothing -> Nothing
         Just (tokens, _) -> Just (comp tokens)
+        _ -> Nothing
 
 testPostfix :: IO()
 testPostfix = do

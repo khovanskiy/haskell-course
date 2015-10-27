@@ -10,7 +10,7 @@ manHeaps :: Writer String (Int, Int) -> [Writer String (Int, Int)]
 ---manHeaps (a, b) = writer <$> [((a - 1, b), "a - 1"), ((a, b - 1), "b - 1"), ((a `div` 2, b * 2), "a / 2, b * 2"), ((a * 2, b `div` 2), "a * 2, b / 2")]
 manHeaps w = do
     let ((a, b), oldlog) = runWriter w
-    writer <$> (\p -> (p, oldlog ++ " -> " ++ show p :: String)) <$> [(a - 1, b), (a, b - 1), (a `div` 2, b * 2), (a * 2, b `div` 2)]
+    writer <$> (\p -> (p, oldlog ++ " -> " ++ show p)) <$> [(a - 1, b), (a, b - 1), (a `div` 2, b * 2), (a * 2, b `div` 2)]
 
 ---zeroIn3 :: (Int, Int) -> Bool
 ---zeroIn3 h = any (\(a, b) -> a == 0 && b == 0) $ [h] >>= manHeaps >>= (\manHeaps >>= manHeaps
@@ -28,4 +28,4 @@ helper k h = do
         writer (k, flog)
 
 zeroInMin :: (Int, Int) -> Writer String Int
-zeroInMin p = helper 0 [return p :: Writer String (Int, Int)]
+zeroInMin p = helper 0 [return p]

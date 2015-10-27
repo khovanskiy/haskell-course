@@ -19,3 +19,9 @@ instance Map Tree where
         EQ  -> b
         LT  -> getOrDefault left k d
         _   -> getOrDefault right k d
+
+    get Leaf _ = Nothing
+    get (Node (a, b) left right) k = case compare k a of
+        EQ  -> Just b
+        LT  -> get left k
+        _   -> get right k

@@ -34,16 +34,13 @@ evalTree (AssignNode key valTree child) = asks $ \env -> do
     newVal <- runReader (evalTree valTree) env
     runReader (evalTree child) (put env key newVal)
 
----evaluate :: (Map m) => m Integer Integer -> String
----evaluate = runReader $ (return ("") :: Reader (m Integer Integer) String)
----evaluate :: (Map m, Floating a) => Tree a -> m String a -> Maybe a
 evaluateTree :: (Map m, Floating a) => Tree a -> m String a -> Maybe a
 evaluateTree tree = runReader (evalTree tree)
 
 evaluate :: Map m => String -> m String Double -> Maybe Double
 evaluate x = \m -> case runParser parser x of
-    Nothing -> Nothing
     (Just (tree, chars)) -> if null chars then evaluateTree tree m else Nothing
+    _ -> Nothing
 
 testEvaluater :: IO()
 testEvaluater = do
