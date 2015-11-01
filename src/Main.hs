@@ -9,19 +9,23 @@ module Main where
 --import BinaryTree
 --import HW3.Factor
 --import HW3.State
----import HW4.IntegerParser
-import HW5.Evaluater
-import HW5.Postfix
-
+--import HW4.IntegerParser
+--import HW5.Evaluater
+--import HW5.Postfix
+import HW6.Grep
 
 main :: IO()
-main = do
+main = grep
+    --putStrLn "Enter two lines"
+    --line1 <- getLine                                    -- line1 :: String
+    --line2 <- getLine                                    -- line2 :: String
+    --putStrLn ("you said: " ++ line1 ++ " and " ++ line2)
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
     ---testIntegerParser
     ---print $ runParser parse "x + y * 2"
-    testEvaluater
-    testPostfix
+    ---testEvaluater
+    ---testPostfix
 
     --let a = fromList [5, 4, 19, 19, 19, 25, 23] :: Tree Int
     --print $ next a 19

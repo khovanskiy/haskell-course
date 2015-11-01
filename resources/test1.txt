@@ -1,0 +1,7 @@
+This program concatenates and prints the contents of files.
+It's also reasonably careful about setting exit status on finishing.
+The actual core algorithm for 'tac' is a nice pure Haskell function.
+To actually turn the list of command line flags getArgs gives us.
+Into a useful list of abstract Flag values, we use the 'getOpt' function, which returns a triple consisting of flags that were set.
+A list of any non-flag arguments, and a list of error messages.
+First we need a couple of libraries:
