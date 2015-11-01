@@ -31,7 +31,7 @@ readFile' filename predicate = do
     content <- readFile filename
     let strings = filter predicate $ lines content
     let count = length strings
-    newListArray (0, count - 1) strings
+    newListArray (1, count) strings
 
 putFileLn' :: File -> Int -> String -> IO ()
 putFileLn' file i s = do
