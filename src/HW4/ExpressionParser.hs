@@ -1,4 +1,4 @@
-module HW4.ExpressionParser(runParser, tokenize, parser, testIntegerParser, Token(..), Tree(..), Operator(..)) where
+module HW4.ExpressionParser(runParser, tokenize, parser, testIntegerParser, Token(..), Tree(..), Operator(..), Function(..)) where
 
 import HW4.Parser
 import HW4.AParser
@@ -9,16 +9,23 @@ import Asserts
 data Operator = Plus | Minus | Times | Div | Pow
     deriving (Show, Eq)
 
+data Function = Median
+    deriving (Show, Eq)
+
 data Token = TokenOp Operator
            | LBracket
            | RBracket
            | TokenVar String
            | TokenNum Double
            | TokenEnd
+           | TokenFunc Function
     deriving (Show, Eq)
 
 variable :: Parser Token
 variable = (\var -> TokenVar var) <$> oneOrMore (satisfy (`elem` ['a'..'z']))
+
+function :: Parser Token
+function = (\_ _ _ -> TokenFunc Median) <$> char 'm' <*> char 'e' <*> char 'd'
 
 number :: Parser Token
 number = (\int -> TokenNum $ fromInteger int) <$> posInt
@@ -33,7 +40,7 @@ operation :: Parser Token
 operation = (\op -> TokenOp op) <$> ((const Plus <$> char '+') <|> (const Minus <$> char '-') <|> (const Times <$> char '*') <|> (const Div <$> char '/') <|> (const Pow <$> char '^'))
 
 tokenize :: Parser Token
-tokenize = spaces *> (variable <|> number <|> lbracket <|> rbracket <|> operation) <* spaces
+tokenize = spaces *> (function <|> variable <|> number <|> lbracket <|> rbracket <|> operation) <* spaces
 
 data Tree a = AssignNode String (Tree a) (Tree a)
             | TermNode Operator (Tree a) (Tree a)

@@ -11,7 +11,7 @@ module Main where
 --import HW3.State
 --import HW4.IntegerParser
 --import HW5.Evaluater
---import HW5.Postfix
+import HW5.Postfix
 import HW6.Grep
 
 main :: IO()

@@ -1,11 +1,12 @@
 module HW6.Grep(grep) where
 
 import System.Environment
-import Data.Functor
 import Data.Array.IO
+import System.Directory
 import Data.List
+import Data.Functor
 
-type File = IOArray Int String
+type File = IOArray Int (String, Bool)
 
 terminal :: File -> IO()
 terminal file = do
@@ -15,40 +16,40 @@ terminal file = do
         ("Q":_) -> do
             return ()
         ("E":strnum:_) -> do
-            let number = read strnum :: Int
+            let number = read strnum
             line <- getLine
             putFileLn' file number line
             terminal file
         ("W":filename:_) -> do
-            putStrLn $ "File `" ++ filename ++ "` created, all changes saved | Changes appended to existing file"
+            exists <- doesFileExist filename
             appendFile' file filename
-            --putStrLn "Current lines:"
-            --logFile file
+            if exists
+                then putStrLn $ "Changes appended to existing file `" ++ filename ++ "`"
+                else putStrLn $ "File `" ++ filename ++ "` created, all changes saved"
             terminal file
 
 readFile' :: FilePath -> (String -> Bool) -> IO File
 readFile' filename predicate = do
     content <- readFile filename
-    let strings = filter predicate $ lines content
+    let strings = (\s -> (s, False)) <$> (filter predicate $ lines content)
     let count = length strings
     newListArray (1, count) strings
 
 putFileLn' :: File -> Int -> String -> IO ()
 putFileLn' file i s = do
-    writeArray file i s
+    writeArray file i (s, True)
 
 appendFile' :: File -> FilePath -> IO ()
 appendFile' file filename = do
     elements <- getElems file
-    let actions = appendFile filename <$> (++"\n") <$> elements
-    sequence_ actions
+    appendFile filename $ unlines (fst <$> (filter (snd) elements))
 
-logArray :: IOArray Int String -> Int -> Int -> IO ()
+logArray :: File -> Int -> Int -> IO ()
 logArray array i m = do
     if i == m + 1
         then return ()
         else do
-            line <- readArray array i
+            (line, edited) <- readArray array i
             putStrLn $ show i ++ ". \"" ++ line ++ "\""
             logArray array (i + 1) m
 
@@ -78,30 +79,18 @@ logFile file = do
 ---    content <- file
 ---    ref <- content !! index
 ---    writeIORef ref str
+--matchByWords :: String -> (String -> Bool)
+--matchByWords word = any (==word) . words
 
 grep :: IO()
 grep = do
     args <- getArgs
+    --putStrLn $ "Program arguments: " ++ show args
     let pattern = args !! 0
     let filename = args !! 1
 
-    --content <- readFile filename
-    --let strings = lines content
     file <- readFile' filename (isInfixOf pattern)
-
     logFile file
-    --arr <- newArray (1, 10) "a" :: IO (IOArray Int String)
-    --a <- readArray arr 1
-    --print a
-    --str <- readFileLn file 0
-    --print str
-    --print array
-    --ref <- array !! 0
-    --a <- readIORef ref
-    --writeIORef ref "abc"
-    --b <- readIORef ref
-    --print $ a ++ " " ++ b
-    --putStrLn $ "Program argument: " ++ show args
-    --print strings
+
     terminal file
 
