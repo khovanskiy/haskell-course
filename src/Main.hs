@@ -1,6 +1,6 @@
 module Main where
 
---import Data.Monoid
+import Data.Monoid
 --import CachedSumList
 --import MassCenter(testMassCenter)
 --import FlipNeighbour
@@ -11,15 +11,15 @@ module Main where
 --import HW3.State
 --import HW4.IntegerParser
 --import HW5.Evaluater
-import HW5.Postfix
-import HW6.Grep
+--import HW5.Postfix
+--import HW6.Grep
+import B3.Graph
+import B3.EdmondsKarp
 
 main :: IO()
-main = grep
-    --putStrLn "Enter two lines"
-    --line1 <- getLine                                    -- line1 :: String
-    --line2 <- getLine                                    -- line2 :: String
-    --putStrLn ("you said: " ++ line1 ++ " and " ++ line2)
+main = do
+    graph <- readGraph "resources/graph1.txt"
+    writeGraph graph "a.txt"
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
     ---testIntegerParser
