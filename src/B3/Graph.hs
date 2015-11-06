@@ -1,4 +1,4 @@
-module B3.Graph(Graph(..), Edge(..), Vertex(..), initVertex, putVertex, putEdge, getVertex, Map.empty) where
+module B3.Graph(Graph(..), Edge(..), Vertex(..), initVertex, putVertex, putEdge, getVertex, getEdge, Map.empty) where
 
 import qualified Data.Map.Lazy as Map
 
@@ -29,6 +29,14 @@ putEdge :: (Ord a) => Graph a b -> Edge a b -> Graph a b
 putEdge g e = case Map.lookup (from e) (vertexes g) of
     Nothing -> error $ "Vertex not found"
     Just v  -> putVertex g $ addEdge' v e
+
+getEdge :: (Ord a) => Graph a b -> a -> a -> Edge a b
+getEdge g u v = case Map.lookup u (vertexes g) of
+    Nothing -> error $ "Vertex not found"
+    Just (Vertex _ vs)  -> do
+        case Map.lookup (u, v) vs of
+            Nothing -> error $ "Edge not found"
+            Just e  -> e
 
 getVertex :: (Show a, Ord a) => Graph a b -> a -> Vertex a b
 getVertex graph v = case Map.lookup v (vertexes graph) of

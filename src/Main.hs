@@ -1,6 +1,6 @@
 module Main where
 
-import Data.Monoid
+--import Data.Monoid
 --import CachedSumList
 --import MassCenter(testMassCenter)
 --import FlipNeighbour
@@ -15,16 +15,15 @@ import Data.Monoid
 --import HW6.Grep
 import B3.Graph
 import B3.EdmondsKarp
-import Control.Monad.Trans.Maybe
-import Control.Monad.Trans.State
-import qualified Data.Map.Lazy as Map
-import qualified Data.PQueue.Min as PQ
 
 main :: IO()
 main = do
     graph <- readGraph "resources/graph1.txt"
-    runStateT (maxFlow graph "A" "B") (DWork Map.empty Map.empty PQ.empty)
-    writeGraph graph "a.txt"
+    let start = getVertex graph "A"
+    let target = getVertex graph "G"
+    minFlow <- maxFlow graph start target
+    putStrLn $ "Максимальный поток: " ++ show minFlow
+    --writeGraph graph "a.txt"
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]
     ---testIntegerParser
