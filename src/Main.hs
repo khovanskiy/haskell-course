@@ -18,10 +18,12 @@ import B3.EdmondsKarp
 
 main :: IO()
 main = do
-    graph <- readGraph "resources/graph1.txt"
-    let start = getVertex graph "A"
-    let target = getVertex graph "G"
-    minFlow <- maxFlow graph start target
+    before <- readGraph "resources/graph1.txt"
+    writeGraph before "before.dot"
+    let start = getVertex before "A"
+    let target = getVertex before "G"
+    (minFlow, after) <- maxFlow before start target
+    writeGraph after "after.dot"
     putStrLn $ "Максимальный поток: " ++ show minFlow
     --writeGraph graph "a.txt"
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))

@@ -52,7 +52,7 @@ readGraph filename = do
     return graph
 
 writeEdge :: FlowEdge -> String
-writeEdge (Edge a b (c, d)) = a ++ " " ++ b ++ " " ++ show c ++ "/" ++ show d
+writeEdge (Edge a b (c, d)) = a ++ "->" ++ b ++ " [label=\"" ++ show c ++ "/" ++ show d ++ "\"]"
 
 writeVertex :: FlowVertex -> [String]
 writeVertex v = Map.foldl (\s e -> (writeEdge e):s) mempty (successors v)
@@ -60,8 +60,10 @@ writeVertex v = Map.foldl (\s e -> (writeEdge e):s) mempty (successors v)
 writeGraph :: FlowGraph -> FilePath -> IO ()
 writeGraph graph filename = do
     handle <- openFile filename AppendMode
+    hPutStrLn handle $ "digraph " ++ filename ++ "{"
     let content = unlines $ join (writeVertex <$> (Map.elems $ vertexes graph))
     hPutStrLn handle content
+    hPutStrLn handle $ "}"
     hClose handle
 
 debug :: (MonadIO m) => String -> m ()
@@ -151,7 +153,7 @@ iteration graph edge = do
         else return ()
 
 --- Поиск максимального потока ---
-maxFlow :: FlowGraph -> FlowVertex -> FlowVertex -> IO Int
+maxFlow :: FlowGraph -> FlowVertex -> FlowVertex -> IO (Int, FlowGraph)
 maxFlow graph source target = evalStateT (maxFlow' source target) (EKWork graph False)
 
 --- Проверка флага, что должны выйти из цикла ---
@@ -176,7 +178,7 @@ flowIteration (Edge u v (c, f)) minC = do
     put $ EKWork newG oldS
 
 --- Основной цикл алгоритма Эдмондса - Карпа ---
-maxFlow' :: FlowVertex -> FlowVertex -> StateT EKWork IO Int
+maxFlow' :: FlowVertex -> FlowVertex -> StateT EKWork IO (Int, FlowGraph)
 maxFlow' source target = do
     whileM_ (not <$> shouldStop) $ do
         EKWork oldG _ <- get
@@ -199,6 +201,6 @@ maxFlow' source target = do
     let edges = successors (getVertex totalG (value source))
     --debug $ show sourceNeighbours
     let totalFlow = Map.foldl (\acc edge -> acc + (fst $ weight edge)) 0 edges
-    return totalFlow
+    return (totalFlow, totalG)
 
 
