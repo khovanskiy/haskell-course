@@ -1,11 +1,11 @@
 module B3.EdmondsKarp(readGraph, writeGraph, bfs, maxFlow) where
 
-import qualified Data.Map.Lazy as Map
+import qualified Data.Map.Lazy as Map(Map, empty, elems, insert, lookup, fromList)
 import Data.Functor
 import B3.Graph
 import System.IO
 import Data.Monoid
-import Data.Foldable(for_, toList, foldl, minimumBy)
+import Data.Foldable(for_, toList, foldl', minimumBy)
 import Control.Monad
 import Control.Monad.Trans.State
 import Control.Monad.IO.Class
@@ -43,7 +43,7 @@ readEdge s = Edge a b (0, c) where
 readGraph :: FilePath -> IO FlowGraph
 readGraph filename = do
     content <- readFile filename
-    let graph = Data.Foldable.foldl folder (Graph Map.empty) (readEdge <$> lines content) where
+    let graph = foldl' folder (Graph Map.empty) (readEdge <$> lines content) where
         folder g (Edge u v (_, c)) = g5 where
             g2 = initVertex g u
             g3 = initVertex g2 v
@@ -55,7 +55,7 @@ writeEdge :: FlowEdge -> String
 writeEdge (Edge a b (c, d)) = a ++ "->" ++ b ++ " [label=\"" ++ show c ++ "/" ++ show d ++ "\"]"
 
 writeVertex :: FlowVertex -> [String]
-writeVertex v = Map.foldl (\s e -> (writeEdge e):s) mempty (successors v)
+writeVertex v = foldl' (\s e -> (writeEdge e):s) mempty (successors v)
 
 writeGraph :: FlowGraph -> FilePath -> IO ()
 writeGraph graph filename = do
@@ -90,7 +90,7 @@ bfs graph s t = evalStateT (bfs' graph s t) (BFSWork Map.empty Map.empty Dequeue
 
 bfs' :: FlowGraph -> FlowVertex -> FlowVertex -> StateT BFSWork IO FlowPath
 bfs' graph s t = do
-    let list = Data.Foldable.toList (vertexes graph)
+    let list = toList (vertexes graph)
     let w = Map.fromList $ (\v -> if v == s then (value v, 0) else (value v, 100000)) <$> list
     let e = Map.fromList $ (\v -> (value v, False)) <$> list
     let q = Dequeue.fromList [(DState s 0)]
@@ -165,7 +165,7 @@ shouldStop = do
 --- Вычисление минимальной пропускной способности пути в остаточной сети ---
 minFlow :: FlowPath -> Int
 minFlow path = diff (weight $ minimumBy comparator path) where
-    diff (c, f) = f - c
+    diff (f, c) = c - f
     comparator (Edge _ _ cf1) (Edge _ _ cf2) = compare (diff cf1) (diff cf2)
 
 --- Обновление потока по текущему ребру и противонапревленному ему ---
@@ -173,7 +173,7 @@ flowIteration :: FlowEdge -> Int -> StateT EKWork IO ()
 flowIteration (Edge u v (c, f)) minC = do
     EKWork oldG oldS <- get
     let tempG = putEdge oldG (Edge u v (c + minC, f))
-    let (Edge _ _ (bc, bf)) = getEdge tempG v u
+    let (bc, bf) = weight $ getEdge tempG v u
     let newG = putEdge tempG (Edge v u (bc - minC, bf))
     put $ EKWork newG oldS
 
@@ -200,7 +200,5 @@ maxFlow' source target = do
     EKWork totalG _ <- get
     let edges = successors (getVertex totalG (value source))
     --debug $ show sourceNeighbours
-    let totalFlow = Map.foldl (\acc edge -> acc + (fst $ weight edge)) 0 edges
+    let totalFlow = foldl' (\acc edge -> acc + (fst $ weight edge)) 0 edges
     return (totalFlow, totalG)
-
-
