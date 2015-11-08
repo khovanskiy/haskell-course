@@ -12,19 +12,21 @@ module Main where
 --import HW4.IntegerParser
 --import HW5.Evaluater
 --import HW5.Postfix
---import HW6.Grep
-import B3.Graph
-import B3.EdmondsKarp
+import HW7.GrepT
+--import B3.Graph
+--import B3.EdmondsKarp
 
 main :: IO()
-main = do
-    before <- readGraph "resources/graph1.txt"
-    writeGraph before "before.dot"
-    let start = getVertex before "A"
-    let target = getVertex before "G"
-    (minFlow, after) <- maxFlow before start target
-    writeGraph after "after.dot"
-    putStrLn $ "Максимальный поток: " ++ show minFlow
+main = grep
+    --before <- readGraph "resources/graph1.txt"
+    --writeGraph before "before.dot"
+    --let start = getVertex before "A"
+    --let target = getVertex before "G"
+    --(minFlow, after) <- maxFlow before start target
+    --writeGraph after "after.dot"
+    --putStrLn $ "Максимальный поток: " ++ show minFlow
+
+
     --writeGraph graph "a.txt"
     ---let example = (Node 5 (Node 4 Leaf Leaf) (Node 19 (Node 6 Leaf (Node 7 Leaf Leaf)) (Node 12 Leaf Leaf)))
     --let array = [5, 4, 19, 19, 19, 25, 23, 21, 22, 24, 15, 10, 17]

@@ -12,16 +12,16 @@ instance (Monad m) => Monad (StateT s m) where
         (a, s') <- runStateT m s
         runStateT (k a) s'
 
+instance MonadTrans (StateT s) where
+    lift m = StateT $ \ s -> do
+        a <- m
+        return (a, s)
+
 instance Monad m => MonadState s (StateT s m) where
-    get = state $ \ s -> (s, s)
-    put s = state $ \ _ -> ((), s)
+    get = StateT $ return . \s -> (s, s)
+    put s = StateT $ return . \_ -> ((), s)
     state f = do
         s <- get
         let (a, s') = f s
         put s'
         return a
-
-instance MonadTrans (StateT s) where
-    lift m = StateT $ \ s -> do
-        a <- m
-        return (a, s)
