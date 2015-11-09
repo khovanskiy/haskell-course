@@ -6,7 +6,7 @@ import HW3.Monad
 
 instance Monad m => MonadFish m where
     returnFish  = return
-    f >=> g     = \x -> f x >>= g
+    f >=> g     = \x -> (f x >>= g)
 
 instance Monad m => MonadJoin m where
     returnJoin  = return

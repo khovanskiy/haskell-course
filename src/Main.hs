@@ -12,12 +12,14 @@ module Main where
 --import HW4.IntegerParser
 --import HW5.Evaluater
 --import HW5.Postfix
-import HW7.GrepT
+--import HW7.GrepT
 --import B3.Graph
 --import B3.EdmondsKarp
+import CW2.CheckerT
 
 main :: IO()
-main = grep
+main = do--grep
+    check "resources/test2.txt"
     --before <- readGraph "resources/graph1.txt"
     --writeGraph before "before.dot"
     --let start = getVertex before "A"
