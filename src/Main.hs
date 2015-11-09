@@ -12,21 +12,20 @@ module Main where
 --import HW4.IntegerParser
 --import HW5.Evaluater
 --import HW5.Postfix
---import HW7.GrepT
+import HW7.GrepT
 --import B3.Graph
 --import B3.EdmondsKarp
-import CW2.CheckerT
+--import CW2.CheckerT
 
 main :: IO()
-main = do--grep
-    check "resources/test2.txt"
-    --before <- readGraph "resources/graph1.txt"
-    --writeGraph before "before.dot"
-    --let start = getVertex before "A"
-    --let target = getVertex before "G"
-    --(minFlow, after) <- maxFlow before start target
-    --writeGraph after "after.dot"
-    --putStrLn $ "Максимальный поток: " ++ show minFlow
+main = grep
+--    before <- readGraph "resources/graph1.txt"
+--    writeGraph before "before.dot"
+--    let start = getVertex before "A"
+--    let target = getVertex before "G"
+--    (flow, after) <- maxFlow before start target
+--    writeGraph after "after.dot"
+--    putStrLn $ "Максимальный поток: " ++ show flow
 
 
     --writeGraph graph "a.txt"
