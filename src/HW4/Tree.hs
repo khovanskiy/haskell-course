@@ -1,4 +1,4 @@
-module HW4.Tree(Tree(..)) where
+module HW4.Tree where
 
 import Data.Foldable
 import Control.Applicative
@@ -12,7 +12,7 @@ instance Functor Tree where
 
 instance Foldable Tree where
     foldMap _ Leaf = mempty
-    foldMap f (Node k l r) = foldMap f l <> f k <> foldMap f r
+    foldMap f (Node k l r) = (foldMap f l) <> (f k) <> (foldMap f r)
 
 instance Applicative Tree where
     pure a = Node a Leaf Leaf

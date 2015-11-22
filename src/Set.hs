@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
-module Set where
+module Set(Set(..)) where
 
 import Data.Monoid
 

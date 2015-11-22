@@ -1,4 +1,4 @@
-module MergeSort(mergeSort, quickSort) where
+module MergeSort(mergeSort, naiveQsort) where
 
 import System.Random
 
@@ -19,9 +19,9 @@ mergeSort x = do
              | x <= y    = x : (merge xs (y:ys))
              | otherwise = y : (merge (x:xs) ys)
 
-quickSort :: (Ord a) => [a] -> [a]
-quickSort [] = []
-quickSort (x:xs) = quickSort lesser ++ [x] ++ quickSort greater where
+naiveQsort :: (Ord a) => [a] -> [a]
+naiveQsort [] = []
+naiveQsort (x:xs) = naiveQsort lesser ++ [x] ++ naiveQsort greater where
     lesser  = [i | i <- xs, i < x]
     greater = [i | i <- xs, i >= x]
 

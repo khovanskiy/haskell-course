@@ -1,5 +1,5 @@
-{-# LANGUAGE FlexibleInstances, FlexibleContexts #-}
-module HW8.QuickSort(quicksort, quicksort_) where
+{-# LANGUAGE FlexibleContexts #-}
+module HW8.QuickSort(quickSort) where
 
 import Control.Monad.ST
 import Data.Array.ST
@@ -8,8 +8,8 @@ import Control.Monad
 import System.Random
 import Control.Monad.Loops (whileM_)
 
-quicksort :: [Int] -> [Int]
-quicksort list = runST $ do
+quickSort :: [Int] -> [Int]
+quickSort list = runST $ do
     let listSize = length list
     arr <- newListArray (0, listSize - 1) list :: ST s (STUArray s Int Int)
     quicksort_ arr (0 :: Int) (listSize - 1) (mkStdGen 42)

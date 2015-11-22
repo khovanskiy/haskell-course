@@ -12,13 +12,14 @@ module Main where
 --import HW4.IntegerParser
 --import HW5.Evaluater
 --import HW5.Postfix
-import HW7.GrepT
+---import HW7.GrepT
 --import B3.Graph
 --import B3.EdmondsKarp
 --import CW2.CheckerT
+import HW8.SpeedTest
 
 main :: IO()
-main = grep
+main = speedTest ---grep
 --    before <- readGraph "resources/graph1.txt"
 --    writeGraph before "before.dot"
 --    let start = getVertex before "A"
