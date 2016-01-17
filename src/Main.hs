@@ -1,6 +1,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Main where
 
+import Data.Functor
+import Control.Monad
 --import Data.Monoid
 --import CachedSumList
 --import MassCenter(testMassCenter)
@@ -14,25 +16,26 @@ module Main where
 --import HW5.Evaluater
 --import HW5.Postfix
 ---import HW7.GrepT
-import B3.Graph
+--import B3.Graph
 --import B3.EdmondsKarp
 --import CW2.CheckerT
-import HW9.Using
-import HW9.DropN
-import HW9.ShowCT
-import HW9.FibCT
+--import HW9.Using
+--import HW9.DropN
+--import HW9.ShowCT
+--import HW9.FibCT
 
-data P = P {a :: Int, b :: Int}
+--data P = P {a :: Int, b :: Int}
 
-fullShow ''P
+--fullShow ''P
 
 main :: IO()
 main = do
-    print $ $(dropN 4 2) ("hello", 1, [4,3], 2)
-    print $ $(dropN 4 1) ("hello", 1, [4,3], 2)
-    print $ $(fibCT) !! 10
-    print $ P 3 5
-    print $ compileTime ---grep
+    print $ (+3) <$> join [[1], [2, 3], [4, 5]]
+---    print $ $(dropN 4 2) ("hello", 1, [4,3], 2)
+---    print $ $(dropN 4 1) ("hello", 1, [4,3], 2)
+---    print $ $(fibCT) !! 10
+---    print $ P 3 5
+---    print $ compileTime ---grep
 --    before <- readGraph "resources/graph1.txt"
 --    writeGraph before "before.dot"
 --    let start = getVertex before "A"
