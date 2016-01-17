@@ -1,3 +1,4 @@
+{-# LANGUAGE TemplateHaskell #-}
 module Main where
 
 --import Data.Monoid
@@ -13,13 +14,25 @@ module Main where
 --import HW5.Evaluater
 --import HW5.Postfix
 ---import HW7.GrepT
---import B3.Graph
+import B3.Graph
 --import B3.EdmondsKarp
 --import CW2.CheckerT
-import HW8.SpeedTest
+import HW9.Using
+import HW9.DropN
+import HW9.ShowCT
+import HW9.FibCT
+
+data P = P {a :: Int, b :: Int}
+
+fullShow ''P
 
 main :: IO()
-main = speedTest ---grep
+main = do
+    print $ $(dropN 4 2) ("hello", 1, [4,3], 2)
+    print $ $(dropN 4 1) ("hello", 1, [4,3], 2)
+    print $ $(fibCT) !! 10
+    print $ P 3 5
+    print $ compileTime ---grep
 --    before <- readGraph "resources/graph1.txt"
 --    writeGraph before "before.dot"
 --    let start = getVertex before "A"

@@ -6,4 +6,4 @@ cabal-version:     >= 1.2
 executable haskell-course
   main-is:         Main.hs
   hs-source-dirs:  src
-  build-depends:   base, random, mtl, array, directory, containers, transformers, pqueue, dequeue, monad-loops, criterion, vector
+  build-depends:   base, random, mtl, array, directory, containers, transformers, pqueue, dequeue, monad-loops, criterion, vector, time, template-haskell
