@@ -1,5 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
-module BinaryTree(Tree(..), testBinaryTree) where
+module BinaryTree(Tree(..), Set(..), printTree, testBinaryTree) where
 
 import Asserts
 import Set
@@ -39,8 +39,8 @@ instance Set Tree where
 
     delete Leaf _ = Leaf
     delete (Node k left right) m = case compare m k of
-        LT  -> Node k left (delete right m)
-        GT  -> Node k (delete left m) right
+        GT  -> Node k left (delete right m)
+        LT  -> Node k (delete left m) right
         _   -> deleteRoot (Node k left right)
 
     next Leaf _ = Nothing
@@ -60,14 +60,15 @@ testBinaryTree = do
     Asserts.equals "BT: Example #3" (Just 21) $ Set.nextN set 19 1
     Asserts.equals "BT: Example #4" (Just 23) $ Set.nextN set 19 3
     Asserts.equals "BT: Example #5" Nothing $ Set.nextN set 19 6
---printTree :: (Ord a, Show a) => Tree a -> IO ()
---printTree = mapM_ putStrLn . treeIndent
---  where
---    treeIndent Leaf           = ["-- /-"]
---    treeIndent (Node k lb rb) =
---      ["--" ++ show k] ++
---      map ("  |" ++) ls ++
---      ("  `" ++ r) : map ("   " ++) rs
---      where
---        (r:rs) = treeIndent rb
---        ls     = treeIndent lb
+
+printTree :: (Ord a, Show a) => Tree a -> IO ()
+printTree = mapM_ putStrLn . treeIndent
+  where
+    treeIndent Leaf           = ["-- /-"]
+    treeIndent (Node k lb rb) =
+      ["--" ++ show k] ++
+      map ("  |" ++) ls ++
+      ("  `" ++ r) : map ("   " ++) rs
+      where
+        (r:rs) = treeIndent rb
+        ls     = treeIndent lb

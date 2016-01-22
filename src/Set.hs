@@ -15,6 +15,11 @@ class Set s where
     insert  :: (Ord a) => s a -> a -> s a
     delete  :: (Ord a) => s a -> a -> s a
 
+    contains :: (Ord a) => s a -> a -> Bool
+    contains s m = case find s m of
+        Nothing -> False
+        _       -> True
+
     next    :: (Ord a) => s a -> a -> Maybe a
     next t m = case filter (\k -> k > m) (toList t) of
         []      -> Nothing

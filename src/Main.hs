@@ -3,6 +3,10 @@ module Main where
 
 import Data.Functor
 import Control.Monad
+import Set
+import B1.AVLTree
+import B1.SpeedTest
+---import BinaryTree
 --import Data.Monoid
 --import CachedSumList
 --import MassCenter(testMassCenter)
@@ -29,9 +33,21 @@ import Control.Monad
 --fullShow ''P
 
 main :: IO()
-main = do
-    print $ (+3) <$> join [[1], [2, 3], [4, 5]]
----    print $ $(dropN 4 2) ("hello", 1, [4,3], 2)
+main = do---speedTest
+    let array = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+    let tree = Set.fromList array :: Tree Int
+    putStrLn $ "Сбалансированно: " ++ (show $ isBalanced tree)
+---    printTree tree
+---    print $ tree
+---    print $ Set.toList tree
+---    ---printTree delete (delete 9
+---    forM_ array $ \i -> do
+---            print $ "Find: " ++ show (Set.find tree i)
+---    forM_ array $ \i -> do
+---        print $ "Delete " ++ show i
+---        let newTree = delete tree i
+---        print $ Set.toList newTree
+------    print $ $(dropN 4 2) ("hello", 1, [4,3], 2)
 ---    print $ $(dropN 4 1) ("hello", 1, [4,3], 2)
 ---    print $ $(fibCT) !! 10
 ---    print $ P 3 5
