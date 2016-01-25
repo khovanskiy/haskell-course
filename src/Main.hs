@@ -1,11 +1,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Main where
 
-import Data.Functor
-import Control.Monad
-import Set
-import B1.AVLTree
-import B1.SpeedTest
+---import Data.Functor
+---import Control.Monad
+---import Set
+---import B1.AVLTree
+---import B1.SpeedTest
 ---import BinaryTree
 --import Data.Monoid
 --import CachedSumList
@@ -27,16 +27,16 @@ import B1.SpeedTest
 --import HW9.DropN
 --import HW9.ShowCT
 --import HW9.FibCT
-
+import EXAM.Ls
 --data P = P {a :: Int, b :: Int}
 
 --fullShow ''P
 
 main :: IO()
-main = do---speedTest
-    let array = [9, 8, 7, 6, 5, 4, 3, 2, 1]
-    let tree = Set.fromList array :: Tree Int
-    putStrLn $ "Сбалансированно: " ++ (show $ isBalanced tree)
+main = ls
+    ---let array = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+    ---let tree = Set.fromList array :: Tree Int
+    ---putStrLn $ "Сбалансированно: " ++ (show $ isBalanced tree)
 ---    printTree tree
 ---    print $ tree
 ---    print $ Set.toList tree

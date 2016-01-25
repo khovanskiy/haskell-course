@@ -23,6 +23,9 @@ class Foldable t where
 id :: a -> a
 id x = x
 
+f :: ([a] -> [b] -> ([a],[b])) -> [a] -> [b] -> ([a],[b])
+f g = g
+
 (.) :: (b -> c) -> (a -> b) -> a -> c
 f . g = \x -> f (g x)
 

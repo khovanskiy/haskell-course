@@ -11,12 +11,12 @@ import B1.AVLTree
 f1 :: [Int] -> Bool
 f1 arr = do
     let p = Set.fromList arr :: BinaryTree.Tree Int
-    any (contains p) arr
+    all (contains p) arr
 
 f2 :: [Int] -> Bool
 f2 arr = do
     let p = Set.fromList arr :: B1.AVLTree.Tree Int
-    any (contains p) arr
+    all (contains p) arr
 
 benches :: [[Int] -> Benchmark]
 benches = [
@@ -46,11 +46,12 @@ speedTest = defaultMain [
             bgroup "sorted down" $ runBenches benches (sortedDown 3),
             bgroup "random" $ runBenches benches (randList 3),
             bgroup "ordered" $ runBenches benches (orderedList 3)
-        ],
-        bgroup "10^5" [
-            bgroup "sorted up" $ runBenches benches (sortedUp 5),
-            bgroup "sorted down" $ runBenches benches (sortedDown 5),
-            bgroup "random" $ runBenches benches (randList 5),
-            bgroup "ordered" $ runBenches benches (orderedList 5)
         ]
+        ---,
+        ---bgroup "10^5" [
+        ---    bgroup "sorted up" $ runBenches benches (sortedUp 5),
+        ---    bgroup "sorted down" $ runBenches benches (sortedDown 5),
+        ---    bgroup "random" $ runBenches benches (randList 5),
+        ---    bgroup "ordered" $ runBenches benches (orderedList 5)
+        ---]
     ]
